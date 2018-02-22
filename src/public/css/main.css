@@ -23,6 +23,7 @@
 .error-panel {
 	border: 5px solid #B10E1E;
 	padding: 1.3em;
+	margin-bottom: 1.875em;
 }
 
 .error-panel_title {
