@@ -16,7 +16,7 @@
 
 	<h2 class="company-timeline-heading">Company Timeline</h2>
 
-	<table class="company-timeline">
+	<table class="timeline-table">
 		<caption class="visually-hidden">Events for company</caption>
 		<thead>
 			<tr>
@@ -28,9 +28,9 @@
 		<tbody>
 		{% for event in json.events %}
 			<tr>
-				<td class="company-timeline_cell company-timeline--date">{{ event.datetime | dateOnly }}</td>
-				<td class="company-timeline_cell company-timeline--source">{{ event.source }}</td>
-				<td class="company-timeline_cell company-timeline--description">{{ event.description }}</td>
+				<td class="timeline-table_cell timeline-table--date">{{ event.datetime | dateOnly }}</td>
+				<td class="timeline-table_cell timeline-table--source">{{ event.source }}</td>
+				<td class="timeline-table_cell timeline-table--description">{{ event.description }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>

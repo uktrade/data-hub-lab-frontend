@@ -39,14 +39,14 @@ module.exports = {
 
 	getEventsByCompanyName: async function( name ){
 
-		const responseData = await backendRequest( '/api/v1/company_timeline/events/?company_name=' + encodeURIComponent( name ) );
+		const responseData = await backendRequest( '/api/v1/company_timeline/events/?company_name=' + encodeURIComponent( name ).replace( /%20/g, '+' ).toLowerCase() );
 
 		return transformEvents( responseData );
 	},
 
 	getEventsByCompanyId: async function( id ){
 
-		const responseData = await backendRequest( '/api/v1/company_timeline/events/?companies_house_id=' + encodeURIComponent( id ) );
+		const responseData = await backendRequest( '/api/v1/company_timeline/events/?companies_house_id=' + parseInt( id, 10 ) );
 
 		return transformEvents( responseData );
 	}
