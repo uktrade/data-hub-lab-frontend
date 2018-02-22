@@ -4,13 +4,35 @@
 
 {% block page_content %}
 
-	{% if name %}
-	Search for company with name: {{ name }}
-	{% endif %}
+	<h1 class="page-heading">
+		{% if name %}
+		Company name: {{ name }}
+		{% endif %}
 
-	{% if id %}
-	Search for company with id: {{ id }}
-	{% endif %}
+		{% if id %}
+		Companies house id: {{ id }}
+		{% endif %}
+	</h1>
 
-	{{ json | dump }}
+	<h2 class="company-timeline-heading">Company Timeline</h2>
+
+	<table class="company-timeline">
+		<caption class="visually-hidden">Events for company</caption>
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Source</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for event in json.events %}
+			<tr>
+				<td class="company-timeline_cell company-timeline--date">{{ event.datetime | dateOnly }}</td>
+				<td class="company-timeline_cell company-timeline--source">{{ event.source }}</td>
+				<td class="company-timeline_cell company-timeline--description">{{ event.description }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}

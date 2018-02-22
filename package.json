@@ -48,6 +48,7 @@
   "dependencies": {
     "compression": "1.7.2",
     "connect-redis": "3.3.3",
+    "dateformat": "3.0.3",
     "express": "4.16.2",
     "express-session": "1.15.6",
     "hawk": "7.0.7",

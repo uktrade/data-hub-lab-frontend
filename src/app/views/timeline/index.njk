@@ -3,9 +3,32 @@
 {% set pageName='Find company' %}
 
 {% block page_content %}
-	<form action="/timeline/search/">
-		<label for="name">Company name:</label>
-		<input type="text" id="name" name="name">
-		<input type="submit" value="Search">
+
+	<h1 class="page-heading">Search for a company timeline</h1>
+
+	{% if error %}
+		<div class="error-panel">
+			<h2 class="error-panel_title">Error with company search</h2>
+			<p class="error-panel_message">
+				{{ error.message }}
+			</p>
+		</div>
+	{% endif %}
+
+	<p class="lead">
+		Enter a company name or companies house id using the form below.
+	</p>
+
+	<form action="/timeline/search/" class="timeline-form">
+		<label for="name" class="timeline-form_label">Company name:</label>
+		<input type="text" id="name" name="name" class="timeline-form_input{% if error.field == 'name' %} timeline-form_input--error{% endif %}">
+		<input type="submit" value="Search" class="timeline-form_button">
 	</form>
+
+	<form action="/timeline/search/" class="timeline-form">
+		<label for="company-id" class="timeline-form_label">Companies house id:</label>
+		<input type="text" id="company-id" name="id" class="timeline-form_input{% if error.field == 'id' %} timeline-form_input--error{% endif %}">
+		<input type="submit" value="Search" class="timeline-form_button">
+	</form>
+
 {% endblock %}

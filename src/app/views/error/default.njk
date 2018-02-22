@@ -1,12 +1,22 @@
 {% extends 'layout.njk' %}
 
 {% set pageName='Error' %}
-{% block page_content %}
-Default error page
 
-{% if error and showErrors %}
-	<pre>
-		{{ error.stack }}
-	</pre>
-{% endif %}
+{% block page_content %}
+
+	<h1 class="page-heading">Error</h1>
+
+	<p class="lead">
+		{% if message %}
+			{{ message }}
+		{% else %}
+			Sorry, an unexpected error occured.
+		{% endif %}
+	</p>
+
+	{% if error and showErrors %}
+		<pre>
+			{{ error.stack }}
+		</pre>
+	{% endif %}
 {% endblock %}

@@ -232,7 +232,7 @@ input:focus,textarea:focus,select:focus,button:focus{outline:3px solid #ffbf47}
 .top-nav {
   border-bottom: 1px solid #bfc1c3;
   padding: 0.5em 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 1.9em;
   overflow: hidden;
 }
 

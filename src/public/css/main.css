@@ -1,0 +1,109 @@
+/*
+	0.313em = 5px
+	0.625em = 10px
+	1em = 16px
+	1.188em = 19px
+	1.5em = 24px
+	1.875em = 30px
+	2.25em = 36px
+	2.813em = 45px
+	3.750em = 60px
+*/
+
+.page-heading {
+	font-size: 2.25em;
+	margin-bottom: 1.25em;
+}
+
+.lead {
+	font-size: 1.5em;
+	margin: 0 0 1.25em 0;
+}
+
+.error-panel {
+	border: 5px solid #B10E1E;
+	padding: 1.3em;
+}
+
+.error-panel_title {
+	font-size: 1.5em;
+}
+
+.error-panel_message {
+	color: #B10E1E;
+	font-weight: bold;
+}
+
+.timeline-form {
+	margin-bottom: 3.750em;
+}
+
+.timeline-form_label {
+	font-size: 1.188em;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 0.526em;
+}
+
+.timeline-form_input {
+	font-size: 1.188em;
+	display: block;
+	padding: 0.526em;
+	min-width: 20em;
+	margin-bottom: 0.789em;
+	border: 2px solid;
+}
+
+.timeline-form_input--error {
+	border: 4px solid #b10e1e;
+}
+
+.timeline-form_button {
+	background-color: #00823b;
+	color: #fff;
+	border: none;
+	box-shadow: 0 2px 0 #003618;
+	line-height: 1.25;
+	font-size: 1.188em;
+	padding: .526315em .789473em .263157em;
+}
+
+.company-timeline-heading {
+	font-size: 160%;
+}
+
+.company-timeline {
+	border-collapse: collapse;
+	font-size: 110%;
+	width: 100%;
+	margin: 1em 0;
+}
+
+.company-timeline tr {
+	border-bottom: 1px solid #999;
+}
+
+.company-timeline tbody tr:last-of-type {
+	border-bottom: none;
+}
+
+.company-timeline th {
+	text-align: left;
+	padding-bottom: 0.5em;
+}
+
+.company-timeline td {
+	padding: 0.5em 0 0.25em 0;
+}
+
+.company-timeline--date {
+	width: 25%;
+}
+
+.company-timeline--source {
+	width: 20%;
+}
+
+.company-timeline--description {
+	width: 55%;
+}

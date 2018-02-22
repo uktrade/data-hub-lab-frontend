@@ -16,9 +16,9 @@ module.exports = function( path ){
 
 	logger.debug( 'Sending request to: ' + uri );
 
-	// Generate Authorization request header
 	try {
 
+		// Generate Authorization request header
 		clientHeader = hawk.client.header( uri, 'GET', { credentials } );
 
 	} catch( e ){
@@ -36,7 +36,8 @@ module.exports = function( path ){
 		method: 'GET',
 		headers: {
 			Authorization: clientHeader.header
-		}
+		},
+		json: true
 	};
 
 	return new Promise( ( resolve, reject ) => {
