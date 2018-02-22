@@ -94,13 +94,11 @@ let config = {
 		paramLength: number( 'OAUTH_PARAM_LENGTH', 75 )
 	},
 	backend: {
-		protocol: env( 'BACKEND_PROTOCOL', 'http' ),
-		host: env( 'BACKEND_HOST', 'localhost' ),
-		port: env( 'BACKEND_PORT', 8000 )
+		url: requiredEnv( 'BACKEND_URL' ),
+		key: requiredEnv( 'BACKEND_KEY' ),
+		user: requiredEnv( 'BACKEND_USER' )
 	}
 };
-
-config.backend.href = `${config.backend.protocol}://${config.backend.host}:${config.backend.port}`;
 
 checkRequiredEnvs();
 

@@ -3,6 +3,8 @@ const request = require( 'request' );
 const config = require( '../config' );
 const logger = require( '../lib/logger' );
 
+const isAlpha = /^[a-zA-Z0-9-]+$/;
+
 const urls = [ 'auth', 'token' ].reduce( ( params, param ) => {
 
 	params[ param ] = `${ config.sso.protocol }://${ config.sso.domain}:${ config.sso.port }${ config.sso.path[ param ] }`;
@@ -20,6 +22,39 @@ function stringify( params ){
 	}
 
 	return arr.join( '&' );
+}
+
+function checkCallbackErrors( errorParam, stateParam, codeParam, stateId ){
+
+	if( errorParam ){
+
+		return `Error with SSO: ${ errorParam }`;
+	}
+
+	if( stateParam !== stateId ){
+
+		return `StateId mismatch: '${ stateParam }' !== '${ stateId }'`;
+	}
+
+	if( stateParam.length > config.sso.paramLength ){
+
+		return ( 'State param too long: ' + stateParam.length );
+	}
+
+	if( !isAlpha.test( stateParam ) ){
+
+		return 'Invalid state param';
+	}
+
+	if( codeParam.length > config.sso.paramLength ){
+
+		return ( 'Code param too long' + codeParam.length );
+	}
+
+	if( !isAlpha.test( codeParam ) ){
+
+		return 'Invalid code param';
+	}
 }
 
 module.exports = {
@@ -58,16 +93,12 @@ module.exports = {
 		const codeParam = req.query.code;
 		const stateId = req.session.oauthStateId;
 
-		if( errorParam ){
+		const errMessage = checkCallbackErrors( errorParam, stateParam, codeParam, stateId );
 
-			logger.error( `Error with SSO: ${ errorParam }`  );
-			throw new Error( `Error with SSO: ${ errorParam }` );
-		}
+		if( errMessage ){
 
-		if( stateParam !== stateId ){
-
-			logger.error( `StateId mismatch: '${ stateParam }' !== '${ stateId }'` );
-			throw new Error( 'StateId mismatch' );
+			logger.error( errMessage  );
+			throw new Error( errMessage );
 		}
 
 		request( {
