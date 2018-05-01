@@ -31,11 +31,14 @@
 	<!-- endbuild -->
 
 	<!-- build:js(src) /public/js/acs.min.js -->
-		<script src="/public/js/utils.js"></script>
 		<script src="/public/js/acs.js"></script>
+		<script src="/public/js/acs.utils.js"></script>
+		<script src="/public/js/acs.map.js"></script>
+		<script src="/public/js/acs.info.js"></script>
+		<script src="/public/js/acs.search.js"></script>
 	<!-- endbuild -->
 
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxL_hAm4mfaqsihhdqP3Z5syixcxjBmYM&callback=initMap" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxL_hAm4mfaqsihhdqP3Z5syixcxjBmYM&callback=acs.map.init" async defer></script>
 {% endblock %}
 
 {% block page_content %}
