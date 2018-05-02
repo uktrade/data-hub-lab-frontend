@@ -2,6 +2,8 @@
 // * Company Info * //
 // **************** //
 acs.info = (function( $ ){
+
+	var $selectedCompany;
 	
 	function clearAllInfoTables(){
 		$('table#timeline tbody tr').remove();
@@ -68,9 +70,7 @@ acs.info = (function( $ ){
 		$.ajax({
 			url: url,
 			type: "get",
-			success: function(response) {
-				callback(response);
-			},
+			success: callback,
 			error: function(error) {
 				console.log(error);
 			}
@@ -103,20 +103,37 @@ acs.info = (function( $ ){
 	}
 
 	return {
-		
+
 		init: function(){
+
+			$selectedCompany = $("#selected_company");
 
 			$("#company_info_button").click(function(){
 
-			var company_attrs = $("#selected_company").val()[0].split(':');
-			var company_id = company_attrs[0].replace('ltd.', '').replace('ltd', '').replace('limited', '').trim();
-			var sic_codes = company_attrs[1];
-			var export_codes = company_attrs[2];
+				var company_attrs = $selectedCompany.val()[0].split(':');
+				var company_id = company_attrs[0].replace('ltd.', '').replace('ltd', '').replace('limited', '').trim();
+				var sic_codes = company_attrs[1];
+				var export_codes = company_attrs[2];
 
+				clearAllInfoTables();
+				populateInfo( company_id, sic_codes, export_codes );
+			});
+		},
+
+		clear: function(){
+
+			$selectedCompany.find( 'option' ).remove();
 			clearAllInfoTables();
+		},
 
-			populateInfo( company_id, sic_codes, export_codes );
-		});
+		addRow: function( rowData ){
+			var value = rowData.company_id + ':' + rowData.sic_codes + ':' + rowData.commodity_codes;
+			var text = rowData.company_name;
+			$selectedCompany.append($("<option></option>").attr("value", value).text(text));
+		},
+
+		refresh: function(){
+			$selectedCompany.selectpicker('refresh');
 		}
 	};
 }( jQuery ));

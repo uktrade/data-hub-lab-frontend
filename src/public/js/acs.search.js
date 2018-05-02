@@ -2,7 +2,7 @@
 // * Company Search * //
 // ****************** //
 
-acs.search = (function( $, utils, map ){
+acs.search = (function( $, utils, map, info ){
 
 	var undef;
 	var toArray = utils.toArray;
@@ -97,17 +97,10 @@ acs.search = (function( $, utils, map ){
 		$('table.company_filter tbody').append(row);
 	}
 
-	function populateCompanyInfoSelector(selector, rowData){
-		var value = rowData.company_id + ':' + rowData.sic_codes + ':' + rowData.commodity_codes;
-		var text = rowData.company_name;
-		selector.append($("<option></option>").attr("value", value).text(text));
-	}
-
 	function clearTables() {
 		$('table.company_filter tbody tr').remove();
 		$('table#company_description tbody').children().remove();
 	}
-
 
 	// Populate search query selectors
 	function populate_selector(name, type) {
@@ -118,13 +111,15 @@ acs.search = (function( $, utils, map ){
 		$.ajax({
 			type: 'get',
 			url: ( '/acs/api/data/' + name ),
-			async:true,
+			async: true,
 			dataType: 'json',
 			success: function(option_list){
+
 				var options = option_list.result;
 				var i = 0;
 				var option;
 				var selector = $( 'select[name=' + name + ']' );
+
 				selector.empty();
 
 				while( ( option = options[ i++ ] ) ){
@@ -150,8 +145,8 @@ acs.search = (function( $, utils, map ){
 							$("<option></option>").attr("value", value).text(text)
 						);
 					}
-
 				}
+
 				selector.selectpicker('refresh');
 			},
 			error: function(error) {
@@ -163,7 +158,6 @@ acs.search = (function( $, utils, map ){
 
 	function search(offset, limit){
 
-		var $selectedCompany = $('#selected_company');
 		var sort_order;
 		var sort_field = $('select[name=sort_field]').val() || undef;
 		
@@ -189,17 +183,19 @@ acs.search = (function( $, utils, map ){
 
 				clearTables();
 				map.clearMarkers();
-				$selectedCompany.find('option').remove();
+				info.clear();
 
 				if( rows ){
 
 					while( ( row = rows[ i++ ] ) ){
 						drawRow(row);
-						populateCompanyInfoSelector($selectedCompany, row);
+						info.addRow(row);
 						map.drawMarker(row);
 					}
+
 					$searchResults.show();
-					$selectedCompany.selectpicker('refresh');
+					info.refresh();
+
 					try {
 						$searchResults.find( 'table' )[ 0 ].scrollIntoView();
 					} catch( e ){}
@@ -215,7 +211,7 @@ acs.search = (function( $, utils, map ){
 			error: function(){
 				clearTables();
 				map.clearMarkers();
-				$selectedCompany.find('option').remove();
+				info.clear();
 				console.log('failed');
 			}
 		});
@@ -264,4 +260,4 @@ acs.search = (function( $, utils, map ){
 			populate_selector('commodity_code', 'array');
 		}
 	};
-}( jQuery, acs.utils, acs.map ));
+}( jQuery, acs.utils, acs.map, acs.info ));
