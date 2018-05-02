@@ -39,21 +39,21 @@ module.exports = {
 
 	getEventsByCompanyName: async function( name ){
 
-		const responseData = await backendRequest( '/api/v1/company_timeline/events/?company_name=' + encodeURIComponent( name ).replace( /%20/g, '+' ).toLowerCase() );
+		const responseData = await backendRequest( '/api/v1/company/events/?company_name=' + encodeURIComponent( name ).replace( /%20/g, '+' ).toLowerCase() );
 
 		return transformEvents( responseData );
 	},
 
 	getEventsByCompanyId: async function( id ){
 
-		const responseData = await backendRequest( '/api/v1/company_timeline/events/?companies_house_id=' + parseInt( id, 10 ) );
+		const responseData = await backendRequest( '/api/v1/company/events/?companies_house_id=' + parseInt( id, 10 ) );
 
 		return transformEvents( responseData );
 	},
 
 	getEventsByInternalCompanyId: async function( id ){
 
-		const responseData = await backendRequest( '/api/v1/company_timeline/events/?company_id=' + parseInt( id, 10 ) );
+		const responseData = await backendRequest( '/api/v1/company/events/?company_id=' + parseInt( id, 10 ) );
 		
 		return transformEvents( responseData );
 	},
