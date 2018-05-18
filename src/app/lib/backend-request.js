@@ -41,7 +41,8 @@ function createRequestOptions( uri, method, opts ){
 
 		} catch( e ){
 
-			logger.debug( 'Unable to parse data to JSON' );
+			logger.debug( 'Unable to stringify JSON' );
+			reporter.captureException( e );
 		}
 	}
 
@@ -73,7 +74,8 @@ function createRequestOptions( uri, method, opts ){
 	};
 
 	if( opts.data ){
-		requestOptions.headers['content-type'] = 'application/json'
+		//manually add header, see below
+		requestOptions.headers[ 'content-type' ] = 'application/json';
 		requestOptions.body = payload;
 	}
 
@@ -95,6 +97,7 @@ function makeRequest( resolve, reject, uri, method, opts, key ){
 		} else {
 
 			// Authenticate the server's response
+			// must use raw response body here
 			const isValid = hawk.client.authenticate( response, credentials, clientHeader.artifacts, { payload: body } );
 
 			logger.debug( `Response code: ${ response.statusCode } for ${ uri }, isValid:` + !!isValid );
@@ -105,9 +108,21 @@ function makeRequest( resolve, reject, uri, method, opts, key ){
 
 			} else {
 
-				if (response.headers['content-type'] == 'application/json') {
-					body = JSON.parse(body)
+				// because we need the raw response body for the hawk client above
+				// try and convert to JSON before passing back
+				if( response.headers[ 'content-type' ] === 'application/json' ){
+
+					try {
+
+						body = JSON.parse( body );
+
+					} catch ( e ){
+
+						logger.error( 'Unable to convert response to JSON' );
+						reporter.captureException( e );
+					}
 				}
+
 				const responseData = { response, body };
 				// Output results
 				resolve( responseData );
