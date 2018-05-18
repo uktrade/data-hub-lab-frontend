@@ -69,13 +69,12 @@ function createRequestOptions( uri, method, opts ){
 		method,
 		headers: {
 			Authorization: clientHeader.header
-		},
-		json: true
+		}
 	};
 
 	if( opts.data ){
-
-		requestOptions.body = opts.data;
+		requestOptions.headers['content-type'] = 'application/json'
+		requestOptions.body = payload;
 	}
 
 	return { requestOptions, clientHeader };
@@ -106,6 +105,9 @@ function makeRequest( resolve, reject, uri, method, opts, key ){
 
 			} else {
 
+				if (response.headers['content-type'] == 'application/json') {
+					body = JSON.parse(body)
+				}
 				const responseData = { response, body };
 				// Output results
 				resolve( responseData );
