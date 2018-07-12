@@ -15,7 +15,8 @@
     "build:dist": "grunt dist && npm run dist-install",
     "dist-install": "cd dist && npm install --production",
     "dist": "npm run build:dist && npm run start",
-    "heroku-postbuild": "npm run build:dist"
+    "heroku-postbuild": "npm run build:dist",
+    "lint": "eslint src/app"
   },
   "repository": {
     "type": "git",
@@ -28,8 +29,8 @@
   },
   "homepage": "https://github.com/uktrade/datascience-fe#readme",
   "devDependencies": {
-    "eslint": "4.19.1",
-    "grunt": "1.0.2",
+    "eslint": "^5.1.0",
+    "grunt": "^1.0.3",
     "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
@@ -42,9 +43,9 @@
     "jasmine-core": "2.99.1",
     "load-grunt-tasks": "3.5.2",
     "mockdate": "2.0.2",
-    "nodemon": "1.17.3",
+    "nodemon": "^1.18.1",
     "proxyquire": "1.8.0",
-    "supertest": "3.0.0"
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "compression": "1.7.2",
