@@ -1,2 +1,5 @@
-# datascience-fe
-A front end to show some Data Science magic
+# Data Hub Labs
+
+Experimental features for Data Hub
+
+Currently showing some Data Science magic
