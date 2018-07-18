@@ -8,6 +8,9 @@
     "npm": "5.6.0"
   },
   "scripts": {
+    "preversion": "npm run lint && npm test",
+    "postversion": "git push && git push --tags",
+    "tag-master": "git tag v${npm_package_version}-master && git push --tags",
     "test": "NODE_ENV=development; LOG_LEVEL=error; SSO_BYPASS=true; JASMINE_CONFIG_PATH=src/test/app/jasmine.json jasmine",
     "start": "NODE_ENV=production node --use-strict dist/server.js",
     "watch": "export LOG_LEVEL=debug; nodemon src/app/cluster.js --ignore 'src/public/**/*' --ignore 'src/test/**/*'",
