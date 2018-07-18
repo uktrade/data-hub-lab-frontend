@@ -120,6 +120,8 @@ acs.search = (function( $, utils, map, info ){
 
 				selector.empty();
 
+				if( !options ) { return; }
+
 				while( ( option = options[ i++ ] ) ){
 					var value, text;
 					if (isArray) {
@@ -158,7 +160,7 @@ acs.search = (function( $, utils, map, info ){
 
 		var sort_order;
 		var sort_field = $('select[name=sort_field]').val() || undef;
-		
+
 		if (sort_field) {
 			sort_field = sort_field[0];
 			sort_order = !$('input[name=sort_order]').prop("checked");
@@ -201,7 +203,7 @@ acs.search = (function( $, utils, map, info ){
 				} else {
 
 					$noResultsMessage.show();
-					try { 
+					try {
 						$noResultsMessage[ 0 ].scrollIntoView();
 					} catch( e ){}
 				}
