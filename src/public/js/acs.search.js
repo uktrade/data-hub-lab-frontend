@@ -40,12 +40,10 @@ acs.search = (function( $, utils, map, info ){
 					'max': data['last_export_evidence_max']
 				},
 				'export_codes': {
-					'code_match': toArray(data['commodity_code']),
-					'keyword_search': data['commodity_code_kw']
+					'code_match': toArray(data['commodity_code'])
 				},
 				'sic_codes': {
-					'code_match': toArray(data['sic_code']),
-					'keyword_search': data['sic_code_kw']
+					'code_match': toArray(data['sic_code'])
 				},
 				'current_assets': {
 					'min': toInt(data['current_assent_min']),
@@ -59,7 +57,7 @@ acs.search = (function( $, utils, map, info ){
 					'min': toInt(data['turnover_min']),
 					'max': toInt(data['turnover_max'])
 				},
-				'company_classification': toArray(data['company_classification']),
+				'market_of_interest': toArray(data['market_of_interest']),
 				'headquarter_type': toArray(data['headquarter_type']),
 				'employee_range': data['employee_range'],
 				'export_propensity': {
@@ -91,7 +89,7 @@ acs.search = (function( $, utils, map, info ){
 		row.append($("<td>" + rowData.shareholder_funds + "</td>"));
 		row.append($("<td>" + rowData.turnover + "</td>"));
 		row.append($("<td>" + rowData.headquarter_type + "</td>"));
-		row.append($("<td>" + rowData.company_classification + "</td>"));
+		row.append($("<td>" + rowData.market_of_interest + "</td>"));
 		row.append($("<td>" + rowData.employee_range + "</td>"));
 		row.append($("<td>" + rowData.export_propensity + "</td>"));
 		$('table.company_filter tbody').append(row);
@@ -253,7 +251,7 @@ acs.search = (function( $, utils, map, info ){
 
 			populate_selector('service_usage', 'not');
 			populate_selector('region');
-			populate_selector('company_classification');
+			populate_selector('market_of_interest');
 			populate_selector('headquarter_type');
 			populate_selector('employee_range');
 			populate_selector('sic_code', 'array');
