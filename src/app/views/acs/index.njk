@@ -23,7 +23,7 @@
 		<script src="/public/js/vendor/jquery-1.10.2.min.js"></script>
 		<script src="/public/js/vendor/jquery.bootpag.min.js"></script>
 		<script src="/public/js/vendor/moment.2.10.6.min.js"></script>
-		
+
 		<script src="/public/js/vendor/bootstrap-3.0.0.min.js"></script>
 		<script src="/public/js/vendor/bootstrap-datetimepicker-4.17.37.min.js"></script>
 		<script src="/public/js/vendor/bootstrap-select-1.12.4.min.js"></script>
@@ -43,7 +43,7 @@
 
 {% block page_content %}
 
-	<h2 class="page-heading">Company Search Tool</h2>
+	<h2 class="page-heading">Company Finder</h2>
 
 	<div id="mapTab" class="container">
 
@@ -62,30 +62,32 @@
 		<div class="tab-content">
 			<div class="tab-pane active" id="1">
 				<h4> Search Criteria:</h4>
+
 				<div class="container border2 search-container">
 					<form class="form-horizontal" role="form" id="search_filters">
 						<div class="container-fluid">
+							<br>Company Details</br>
 							<div class="row">
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Company Name:</span>
 										<input type="text" class="form-control" name='company_name'
-											   placeholder="Enter Keyword">
+										       placeholder="Enter Keyword">
 									</div>
 								</div>
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Post Code:</span>
 										<input type="text" class="form-control" name='postcode'
-											   placeholder="Enter Keyword">
+										       placeholder="Enter Keyword">
 									</div>
 								</div>
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Region:</span>
 										<select name='region' class="selectpicker show-menu-arrow form-control" multiple
-												data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
+										        data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
 										</select>
 									</div>
 								</div>
@@ -93,42 +95,75 @@
 							<div class="row">
 								<div class="col-lg-4">
 									<div class="input-group">
+										<span class="input-group-addon">Industry (SIC):</span>
+										<select name='sic_code' class="selectpicker show-menu-arrow form-control" multiple
+										        data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="input-group">
+										<span class="input-group-addon">HQ Type:</span>
+										<select name='headquarter_type' class="selectpicker show-menu-arrow form-control"
+										        multiple data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="input-group">
+										<span class="input-group-addon">Employees:</span>
+										<select name='employee_range' class="selectpicker show-menu-arrow form-control"
+										        multiple
+										        data-max-options="1" data-live-search="true">
+										</select>
+									</div>
+								</div>
+							</div>
+							<br>Company Exports</br>
+							<div class="row">
+								<div class="col-lg-4">
+									<div class="input-group">
 										<span class="input-group-addon">Export Evidences:</span>
 										<input type="number" class="form-control" name='nb_export_evidences_min'
-											   placeholder="min">
+										       placeholder="min">
 										<span class="input-group-btn" style="width:0px;"></span>
 										<input type="number" class="form-control" name='nb_export_evidences_max'
-											   placeholder="max">
+										       placeholder="max">
 									</div>
 								</div>
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Last Evidence:</span>
 										<span class="input-group-btn" style="width:0px;"></span>
+
 										<div class="input-group date" id='datetimepicker1' style="width:100%;">
 											<input type='text' class="form-control" name='last_export_evidence_min'
-												   placeholder="min date">
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-calendar"></span>
-											</span>
+											       placeholder="min date">
+																						<span class="input-group-addon">
+														<span class="glyphicon glyphicon-calendar"></span>
+													</span>
 										</div>
 										<span class="input-group-btn" style="width:0px;"></span>
+
 										<div class="input-group date" id='datetimepicker2' style="width:100%;">
 											<input type='text' class="form-control" name='last_export_evidence_max'
-												   placeholder="max date">
-											<span class="input-group-addon">
-												<span class="glyphicon glyphicon-calendar"></span>
-											</span>
+											       placeholder="max date">
+																						<span class="input-group-addon">
+														<span class="glyphicon glyphicon-calendar"></span>
+													</span>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-4">
 									<div class="input-group">
-										<span class="input-group-addon">Export Code:</span>
-										<select name='commodity_code' class="selectpicker show-menu-arrow form-control"
-												multiple
-												data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
+										<span class="input-group-addon">Market Exported:</span>
+										<select name='market_exported'
+										        class="selectpicker show-menu-arrow form-control"
+										        multiple
+										        data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
 										</select>
 									</div>
 								</div>
@@ -136,35 +171,48 @@
 							<div class="row">
 								<div class="col-lg-4">
 									<div class="input-group">
-										<span class="input-group-addon">SIC Code:</span>
-										<select name='sic_code' class="selectpicker show-menu-arrow form-control" multiple
-												data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
+										<span class="input-group-addon">Market Interest:</span>
+										<select name='market_of_interest'
+										        class="selectpicker show-menu-arrow form-control"
+										        multiple
+										        data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
 										</select>
 									</div>
 								</div>
+								<div class="col-lg-4">
+									<div class="input-group">
+										<span class="input-group-addon">Products (HS):</span>
+										<select name='commodity_code' class="selectpicker show-menu-arrow form-control"
+										        multiple
+										        data-max-options="10" data-live-search="true"
+										        data-selected-text-format="count">
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-4">
+									<div class="input-group">
+										<span class="input-group-addon">Export Propensity:</span>
+										<input type="text" class="form-control" name='export_propensity_min'
+										       placeholder="min">
+										<span class="input-group-btn" style="width:0px;"></span>
+										<input type="text" class="form-control" name='export_propensity_max'
+										       placeholder="max">
+									</div>
+								</div>
+							</div>
+							<br>Company Financials</br>
+							<div class="row">
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Current Assets:</span>
 										<input type="text" class="form-control" name='current_assets_min'
-											   placeholder="min">
+										       placeholder="min">
 										<span class="input-group-btn" style="width:0px;"></span>
 										<input type="text" class="form-control" name='current_assets_max'
-											   placeholder="max">
+										       placeholder="max">
 									</div>
 								</div>
-								<div class="col-lg-4">
-									<div class="input-group">
-										<span class="input-group-addon">Shareholder Funds:</span>
-										<input type="text" class="form-control" name='shareholder_funds_min'
-											   placeholder="min">
-										<span class="input-group-btn" style="width:0px;"></span>
-										<input type="text" class="form-control" name='shareholder_funds_max'
-											   placeholder="max">
-									</div>
-								</div>
-							</div>
-							<div class="row">
 								<div class="col-lg-4">
 									<div class="input-group">
 										<span class="input-group-addon">Turnover:</span>
@@ -175,53 +223,12 @@
 								</div>
 								<div class="col-lg-4">
 									<div class="input-group">
-										<span class="input-group-addon">HQ Type:</span>
-										<select name='headquarter_type' class="selectpicker show-menu-arrow form-control"
-												multiple data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="input-group">
-										<span class="input-group-addon">Market Interest:</span>
-										<select name='market_of_interest'
-												class="selectpicker show-menu-arrow form-control"
-												multiple
-												data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-4">
-									<div class="input-group">
-										<span class="input-group-addon">Employee Range:</span>
-										<select name='employee_range' class="selectpicker show-menu-arrow form-control"
-												multiple
-												data-max-options="1" data-live-search="true">
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="input-group">
-										<span class="input-group-addon">Export Propensity:</span>
-										<input type="text" class="form-control" name='export_propensity_min'
-											   placeholder="min">
+										<span class="input-group-addon">Shareholder Funds:</span>
+										<input type="text" class="form-control" name='shareholder_funds_min'
+										       placeholder="min">
 										<span class="input-group-btn" style="width:0px;"></span>
-										<input type="text" class="form-control" name='export_propensity_max'
-											   placeholder="max">
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="input-group">
-										<span class="input-group-addon">Service Used:</span>
-										<select name='service_usage' class="selectpicker show-menu-arrow form-control"
-												multiple
-												data-max-options="10" data-live-search="true"
-												data-selected-text-format="count">
-										</select>
+										<input type="text" class="form-control" name='shareholder_funds_max'
+										       placeholder="max">
 									</div>
 								</div>
 							</div>
@@ -242,7 +249,8 @@
 									<div class="col-sm-5">
 										<div class="form-group">
 											<label for="" class="sr-only">Sort by:</label>
-											<select name="sort_field" class="selectpicker form-control" multiple data-max-options="1" title="Select a sort field">
+											<select name="sort_field" class="selectpicker form-control" multiple data-max-options="1"
+											        title="Select a sort field">
 												<option value='company_name'>Company Name</option>
 												<option value='postcode'>Postcode</option>
 												<option value='region'>Region</option>
@@ -291,17 +299,18 @@
 								<th>Company Name</th>
 								<th>Postcode</th>
 								<th>Region</th>
+								<th>SIC Codes</th>
+								<th>HQ Type</th>
+								<th>Employee Range</th>
 								<th>NB Export Evidences</th>
 								<th>Last Export Evidence</th>
-								<th>Export Codes</th>
-								<th>SIC Codes</th>
-								<th>Current Assets</th>
-								<th>Shareholder Funds</th>
-								<th>Turnover</th>
-								<th>HQ Type</th>
+								<th>Market Exported</th>
 								<th>Market Interest</th>
-								<th>Employee Range</th>
+								<th>Export Codes</th>
 								<th>Propensity to Export</th>
+								<th>Current Assets</th>
+								<th>Turnover</th>
+								<th>Shareholder Funds</th>
 							</tr>
 							</thead>
 							<tbody></tbody>
@@ -317,9 +326,9 @@
 								<div class="input-group">
 									<span class="input-group-addon">Company Name:</span>
 									<select id="selected_company" name='timeline'
-											class="selectpicker show-menu-arrow form-control"
-											multiple
-											data-max-options="1" data-live-search="true">
+									        class="selectpicker show-menu-arrow form-control"
+									        multiple
+									        data-max-options="1" data-live-search="true">
 									</select>
 									<span class="input-group-btn" id="company_info_button">
 											<button class="btn btn-default">Search!</button>
@@ -328,9 +337,11 @@
 							</div>
 						</div>
 						<br>
+
 						<div class="row">
 							<div class="col-lg-12">
 								<h4>Activities</h4>
+
 								<div class="border">
 									<table class="company_info" id="timeline">
 										<thead>
@@ -348,6 +359,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<h4>Exports</h4>
+
 								<div class="border">
 									<table class="company_info" id="export_codes">
 										<thead>
@@ -362,6 +374,7 @@
 							</div>
 							<div class="col-md-6">
 								<h4>Nature of business</h4>
+
 								<div class="border">
 									<table class="company_info" id="sic_codes">
 										<thead>

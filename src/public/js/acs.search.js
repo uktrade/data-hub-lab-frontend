@@ -58,6 +58,7 @@ acs.search = (function( $, utils, map, info ){
 					'max': toInt(data['turnover_max'])
 				},
 				'market_of_interest': toArray(data['market_of_interest']),
+				'market_exported': toArray(data['market_exported']),
 				'headquarter_type': toArray(data['headquarter_type']),
 				'employee_range': data['employee_range'],
 				'export_propensity': {
@@ -81,17 +82,18 @@ acs.search = (function( $, utils, map, info ){
 		row.append($("<td>" + rowData.company_name + "</td>"));
 		row.append($("<td>" + rowData.postcode + "</td>"));
 		row.append($("<td>" + rowData.region + "</td>"));
+		row.append($("<td>" + rowData.sic_codes + "</td>"));
+		row.append($("<td>" + rowData.headquarter_type + "</td>"));
+		row.append($("<td>" + rowData.employee_range + "</td>"));
 		row.append($("<td>" + rowData.nb_export_evidences + "</td>"));
 		row.append($("<td>" + rowData.last_export_evidence + "</td>"));
-		row.append($("<td>" + rowData.commodity_codes + "</td>"));
-		row.append($("<td>" + rowData.sic_codes + "</td>"));
-		row.append($("<td>" + rowData.current_assets + "</td>"));
-		row.append($("<td>" + rowData.shareholder_funds + "</td>"));
-		row.append($("<td>" + rowData.turnover + "</td>"));
-		row.append($("<td>" + rowData.headquarter_type + "</td>"));
+		row.append($("<td>" + rowData.market_exported + "</td>"));
 		row.append($("<td>" + rowData.market_of_interest + "</td>"));
-		row.append($("<td>" + rowData.employee_range + "</td>"));
+		row.append($("<td>" + rowData.commodity_codes + "</td>"));
 		row.append($("<td>" + rowData.export_propensity + "</td>"));
+		row.append($("<td>" + rowData.current_assets + "</td>"));
+		row.append($("<td>" + rowData.turnover + "</td>"));
+		row.append($("<td>" + rowData.shareholder_funds + "</td>"));
 		$('table.company_filter tbody').append(row);
 	}
 
@@ -254,6 +256,7 @@ acs.search = (function( $, utils, map, info ){
 			populate_selector('service_usage', 'not');
 			populate_selector('region');
 			populate_selector('market_of_interest');
+			populate_selector('market_exported');
 			populate_selector('headquarter_type');
 			populate_selector('employee_range');
 			populate_selector('sic_code', 'array');
