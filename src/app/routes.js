@@ -2,6 +2,8 @@ const homeController = require( './controllers/home' );
 const ssoController = require( './controllers/sso' );
 const timelineController = require( './controllers/timeline' );
 const acsController = require( './controllers/acs' );
+const googleDashboardController = require( './controllers/google-dashboard' );
+const powerBIDashboardController = require( './controllers/powerbi-dashboard' );
 
 module.exports = function( express, app ){
 
@@ -16,4 +18,8 @@ module.exports = function( express, app ){
 	app.get( '/acs/api/search/export-code/:code', acsController.searchByExportCode );
 	app.get( '/acs/api/data/:type', acsController.dataByType );
 	app.post( '/acs/api/search/', express.json(), acsController.search );
+	app.get( '/google-dashboard/', googleDashboardController.index );
+	app.get( '/powerbi-dashboard/', powerBIDashboardController.index );
+	app.get( '/powerbi-dashboard/api/token/', powerBIDashboardController.getToken );
+
 };

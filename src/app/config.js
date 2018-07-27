@@ -97,6 +97,19 @@ let config = {
 		url: requiredEnv( 'BACKEND_URL' ),
 		key: requiredEnv( 'BACKEND_KEY' ),
 		user: requiredEnv( 'BACKEND_USER' )
+	},
+	dashboard: {
+		powerbi: {
+			clientId: requiredEnv( 'DASHBOARD_POWERBI_CLIENTID' ),
+			username: requiredEnv( 'DASHBOARD_POWERBI_USERNAME' ),
+			password: requiredEnv( 'DASHBOARD_POWERBI_PASSWORD' ),
+			embedUrl: requiredEnv( 'DASHBOARD_POWERBI_EMBEDURL' ),
+			groupId: requiredEnv( 'DASHBOARD_POWERBI_GROUPID' ),
+			reportId: requiredEnv( 'DASHBOARD_POWERBI_REPORTID' )
+		},
+		googleds: {
+			embedURL: requiredEnv( 'DASHBOARD_GOOGLEDS_EMBEDURL' )
+		}
 	}
 };
 

@@ -7,7 +7,9 @@ const cspValues = [
 	`font-src 'self' fonts.gstatic.com`,
 	`img-src 'self' www.google-analytics.com maps.gstatic.com maps.googleapis.com`,
 	`form-action 'self'`,
-	`connect-src 'self'`
+	`connect-src 'self'`,
+	`frame-src datastudio.google.com app.powerbi.com`,
+	`frame-ancestors datastudio.google.com app.powerbi.com`
 
 ].join( ';' );
 

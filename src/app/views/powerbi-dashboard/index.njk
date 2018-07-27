@@ -1,0 +1,81 @@
+{% extends 'layout.njk' %}
+
+{% set pageName='PowerBI Dashboard' %}
+
+{% block head %}
+	{{ super() }}
+	<!-- build:css(src) /public/css/powerbi-dashboard.min.css -->
+	<link rel="stylesheet" href="/public/css/powerbi-dashboard.css">
+	<!-- endbuild -->
+
+{% endblock %}
+
+{% block body_end %}
+	{{ super() }}
+
+	<!-- build:js(src) /public/js/powerbi-dashboard.vendor.min.js -->
+	<script src="/public/js/vendor/jquery-1.10.2.min.js"></script>
+	<script src="/public/js/vendor/powerbi.min.js"></script>
+	<!-- endbuild -->
+
+	<script>
+
+		{% if not error %}
+
+			// Get models. models contains enums that can be used.
+			var models = window['powerbi-client'].models;
+
+			var embedConfiguration = {
+				type: 'report',
+				id: '{{ reportId }}',
+				embedUrl: '{{ embedUrl }}',
+				tokenType: models.TokenType.Embed,
+				accessToken: '{{ token }}',
+				settings: {
+					filterPaneEnabled: false
+				}
+			};
+
+			var $powerBIContainer = $('#powerBIContainer');
+			var report = powerbi.embed($powerBIContainer.get(0), embedConfiguration);
+
+			function refreshToken() {
+				$.ajax({
+					type: 'get',
+					url: ( '/powerbi-dashboard/api/token'),
+					dataType: 'json',
+					success: function(result){
+						report.setAccessToken(result.token)
+							.then(
+							console.log('token refreshed!')
+						)
+							.catch(error => { console.log('token refresh failed') });
+					},
+					error: function(error) {
+						var response = error.responseJSON;
+						console.log( response.error );
+					}
+				});
+			}
+
+			setInterval(refreshToken, 10000); // 1800000 refresh token every 30 mins (expires in 1h)
+
+		{% endif %}
+
+	</script>
+
+{% endblock %}
+
+{% block page_content %}
+
+	{% if error %}
+		<div class="error-panel">
+			<h2 class="error-panel_title">Error loading the dashboard</h2>
+			<p class="error-panel_message">
+				{{ error.message }}
+			</p>
+		</div>
+	{% endif %}
+
+	<div id="powerBIContainer"></div>
+{% endblock %}

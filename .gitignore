@@ -46,3 +46,6 @@ node_modules/
 
 .tmp
 dist
+
+#IntelliJ
+.idea
