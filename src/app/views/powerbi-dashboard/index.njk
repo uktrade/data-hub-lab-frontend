@@ -2,14 +2,6 @@
 
 {% set pageName='PowerBI Dashboard' %}
 
-{% block head %}
-	{{ super() }}
-	<!-- build:css(src) /public/css/powerbi-dashboard.min.css -->
-	<link rel="stylesheet" href="/public/css/powerbi-dashboard.css">
-	<!-- endbuild -->
-
-{% endblock %}
-
 {% block body_end %}
 	{{ super() }}
 
@@ -19,49 +11,49 @@
 	<!-- endbuild -->
 
 	<script>
-
 		{% if not error %}
+			(function(){
+				// Get models. models contains enums that can be used.
+				var models = window['powerbi-client'].models;
 
-			// Get models. models contains enums that can be used.
-			var models = window['powerbi-client'].models;
-
-			var embedConfiguration = {
-				type: 'report',
-				id: '{{ reportId }}',
-				embedUrl: '{{ embedUrl }}',
-				tokenType: models.TokenType.Embed,
-				accessToken: '{{ token }}',
-				settings: {
-					filterPaneEnabled: false
-				}
-			};
-
-			var $powerBIContainer = $('#powerBIContainer');
-			var report = powerbi.embed($powerBIContainer.get(0), embedConfiguration);
-
-			function refreshToken() {
-				$.ajax({
-					type: 'get',
-					url: ( '/powerbi-dashboard/api/token'),
-					dataType: 'json',
-					success: function(result){
-						report.setAccessToken(result.token)
-							.then(
-							console.log('token refreshed!')
-						)
-							.catch(error => { console.log('token refresh failed') });
-					},
-					error: function(error) {
-						var response = error.responseJSON;
-						console.log( response.error );
+				var embedConfiguration = {
+					type: 'report',
+					id: '{{ reportId }}',
+					embedUrl: '{{ embedUrl }}',
+					tokenType: models.TokenType.Embed,
+					accessToken: '{{ token }}',
+					settings: {
+						filterPaneEnabled: false
 					}
-				});
-			}
+				};
 
-			setInterval(refreshToken, 10000); // 1800000 refresh token every 30 mins (expires in 1h)
+				var report = powerbi.embed($('#powerBIContainer').get(0), embedConfiguration);
 
+				function refreshToken() {
+					$.ajax({
+						type: 'get',
+						url: '/powerbi-dashboard/api/embed-token',
+						dataType: 'json',
+						success: function(result){
+							report.setAccessToken(result.token)
+							.then( function(){
+								console.log('token refreshed!');
+							} )
+							.catch( function( error ){
+								console.log('token refresh failed');
+								console.log( error );
+							});
+						},
+						error: function(error) {
+							var response = error.responseJSON;
+							console.log( response.error );
+						}
+					});
+				}
+
+				setInterval(refreshToken, 1800000); // 1800000 refresh token every 30 mins (expires in 1h)
+			}());
 		{% endif %}
-
 	</script>
 
 {% endblock %}

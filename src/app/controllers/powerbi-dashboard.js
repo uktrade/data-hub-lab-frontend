@@ -1,19 +1,20 @@
+const request = require('request');
 const config = require('../config');
 const logger = require('../lib/logger');
-const request = require('request');
 
+const powerBIConfig = config.dashboard.powerbi;
 
 function getAccessToken(username, password, clientId) {
 
-	return new Promise(function (resolve, reject) {
+	return new Promise( (resolve, reject) => {
 
-		var url = 'https://login.microsoftonline.com/common/oauth2/token';
+		const url = 'https://login.microsoftonline.com/common/oauth2/token';
 
-		var headers = {
+		const headers = {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		};
 
-		var formData = {
+		const form = {
 			grant_type: 'password',
 			client_id: clientId,
 			resource: 'https://analysis.windows.net/powerbi/api',
@@ -22,44 +23,42 @@ function getAccessToken(username, password, clientId) {
 			password: password
 		};
 
-		request.post({
-			url: url,
-			form: formData,
-			headers: headers
-
-		}, function (err, result, body) {
+		request.post({ url, form, headers }, (err, result, body) => {
 			if (err) return reject({message: 'Failed to retrieve access token'});
-			var bodyObj = JSON.parse(body);
-			resolve(bodyObj.access_token);
-		})
+			try {
+				const bodyObj = JSON.parse(body);
+				resolve(bodyObj.access_token);
+			} catch( e ){
+				reject( e );
+			}
+		});
 	});
 }
 
 function getEmbedToken(accessToken, groupId, reportId) {
 
-	return new Promise(function (resolve, reject) {
+	return new Promise( (resolve, reject) => {
 
-		var url = 'https://api.powerbi.com/v1.0/myorg/groups/' + groupId + '/reports/' + reportId + '/GenerateToken';
+		const url = `https://api.powerbi.com/v1.0/myorg/groups/${ groupId }/reports/${ reportId }/GenerateToken`;
 
-		var headers = {
+		const headers = {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Authorization': 'Bearer ' + accessToken
 		};
 
-		var formData = {
+		const form = {
 			"accessLevel": "View"
 		};
 
-		request.post({
-			url: url,
-			form: formData,
-			headers: headers
-
-		}, function (err, result, body) {
+		request.post({ url, form, headers }, (err, result, body) => {
 			if (err) return reject({message: 'Failed to retrieve embed token'});
-			var bodyObj = JSON.parse(body);
-			resolve(bodyObj.token);
-		})
+			try{
+				const bodyObj = JSON.parse(body);
+				resolve(bodyObj.token);
+			} catch( e ){
+				reject( e );
+			}
+		});
 	});
 }
 
@@ -67,9 +66,10 @@ async function generateReportToken(username, password, clientId, groupId, report
 
 	try {
 
-		var accessToken = await getAccessToken(username, password, clientId);
-		var token = await getEmbedToken(accessToken, groupId, reportId);
+		const accessToken = await getAccessToken(username, password, clientId);
+		const token = await getEmbedToken(accessToken, groupId, reportId);
 		return token;
+
 	} catch (error) {
 
 		logger.error(error);
@@ -81,12 +81,12 @@ module.exports = {
 
 	index: async function (req, res) {
 
-		var powerBIConfig = config.dashboard.powerbi;
-		var reportId = config.dashboard.powerbi.reportId;
-		var groupId = config.dashboard.powerbi.groupId;
-		var embedUrl = config.dashboard.powerbi.embedUrl;
+		const reportId = powerBIConfig.reportId;
+		const groupId = powerBIConfig.groupId;
+		const embedUrl = powerBIConfig.embedUrl;
+
 		try {
-			var token = await generateReportToken(
+			const token = await generateReportToken(
 				powerBIConfig.username,
 				powerBIConfig.password,
 				powerBIConfig.clientId,
@@ -99,22 +99,20 @@ module.exports = {
 		}
 	},
 
-	getToken: async function (req, res) {
-		var powerBIConfig = config.dashboard.powerbi;
+	getEmbedToken: async function (req, res) {
+
 		try {
-			var token = await generateReportToken(
+			const token = await generateReportToken(
 				powerBIConfig.username,
 				powerBIConfig.password,
 				powerBIConfig.clientId,
 				powerBIConfig.groupId,
 				powerBIConfig.reportId
 			);
-			res.json({token: token})
+			res.json({token: token});
 		} catch (error) {
-			res.status(503)
+			res.status(503);
 			res.json({error: error.message});
 		}
-
 	}
-
 };
