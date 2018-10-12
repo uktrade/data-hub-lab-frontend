@@ -19,7 +19,9 @@
     "dist-install": "cd dist && npm install --production",
     "dist": "npm run build:dist && npm run start",
     "heroku-postbuild": "npm run build:dist",
-    "lint": "eslint src/app"
+    "lint": "eslint src/app",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -63,6 +65,8 @@
     "redis": "2.8.0",
     "request": "^2.87.0",
     "uuid": "^3.3.2",
-    "winston": "2.4.2"
-  }
+    "winston": "2.4.2",
+    "snyk": "^1.103.4"
+  },
+  "snyk": true
 }
