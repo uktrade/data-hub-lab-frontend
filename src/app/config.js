@@ -45,6 +45,29 @@ function checkRequiredEnvs(){
 	}
 }
 
+const buildRedisConfig = () => {
+  const metadataTtl = (process.env.METADATA_TTL || (15 * 60))
+  const vcap = process.env.VCAP_SERVICES ? JSON.parse(process.env.VCAP_SERVICES) : JSON.parse('{}')
+
+  if (vcap.hasOwnProperty('redis')) {
+    return {
+      metadataTtl,
+      url: vcap.redis[0].credentials.uri,
+      port: vcap.redis[0].credentials.port,
+      host: vcap.redis[0].credentials.host,
+      useTLS: vcap.redis[0].credentials.tls_enabled,
+    }
+  }
+
+  return {
+    metadataTtl,
+    url: process.env.REDIS_URL || process.env.REDISTOGO_URL,
+    port: process.env.REDIS_PORT || 6379,
+    host: process.env.REDIS_HOST || 'redis',
+    useTLS: process.env.REDIS_USE_TLS,
+  }
+}
+
 const cpus = ( os.cpus().length || 1 );
 const isDev = ( ( process.env.NODE_ENV || 'development' ) === 'development' );
 
@@ -65,13 +88,7 @@ let config = {
 		cpus,
 		workers: number( 'SERVER_WORKERS', number( 'WEB_CONCURRENCY', cpus ) )
 	},
-	redis: {
-		host: env( 'REDIS_HOST' ),
-		port: number( 'REDIS_PORT' ),
-		password: env( 'REDIS_PASSWORD' ),
-		url: env( 'REDIS_URL' ) || env( 'REDISTOGO_URL' ),
-		tls: bool( 'REDIS_USE_TLS' )
-	},
+	redis: buildRedisConfig(),
 	session: {
 		ttl: ( 1000 * 60 * 60 * 2 ),//milliseconds for cookie
 		secret: requiredEnv( 'SESSION_SECRET' )
